@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RALPH_LOAD_MANAGEMENT
-{
-    public class LoadManagementModelLayer
+namespace LoadManagementModels { 
+    public class Load
     {
         public string TransactionID { get; set; }
         public string PhoneNumber { get; set; }

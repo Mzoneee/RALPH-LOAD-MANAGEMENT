@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using RALPH_LOAD_MANAGEMENT;
+using LoadManagementModels;
+using LoadManagementDataService;
 
-namespace LoadManagementBusinessLogic
+namespace LoadManagementAppService
 {
-    public class LoadManagementBusinessLogic
+    public class LoadAppService
     {
-       
-        LoadManagementDataLayer loadService = new LoadManagementDataLayer();        
-        public LoadManagementModelLayer BuyLoad(LoadManagementModelLayer newTransaction)
+        public LoadDataService dataService = new LoadDataService();
+        public Load BuyLoad(Load newTransaction)
         {
-        
-            newTransaction.TransactionID = Guid.NewGuid().ToString();
-
-            
-            loadService.AddTransaction(newTransaction);
-
-           
+            dataService.AddTransaction(newTransaction);
+            newTransaction.TransactionID = Guid.NewGuid().ToString();           
             return newTransaction;
         }
 

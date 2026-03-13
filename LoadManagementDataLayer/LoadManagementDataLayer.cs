@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RALPH_LOAD_MANAGEMENT;
+using LoadManagementModels;
 
-namespace RALPH_LOAD_MANAGEMENT
+namespace LoadManagementDataService
 {
-    public class LoadManagementDataLayer
+    public class LoadDataService
     {
-        public List<LoadManagementModelLayer> transactions = new List<LoadManagementModelLayer>();
+        public List<Load> transactions = new List<Load>();
 
-        public LoadManagementDataLayer()
+        public LoadDataService()
         {
-            LoadManagementModelLayer sampleTransaction = new LoadManagementModelLayer
+            Load sampleTransaction = new Load
             {
                 //placeholder values lang
                 TransactionID = Guid.NewGuid().ToString(),
@@ -25,7 +25,7 @@ namespace RALPH_LOAD_MANAGEMENT
         }
 
 
-        public void AddTransaction(LoadManagementModelLayer transaction)
+        public void AddTransaction(Load transaction)
         {
             transactions.Add(transaction);
         }

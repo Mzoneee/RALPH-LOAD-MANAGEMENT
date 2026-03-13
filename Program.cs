@@ -1,112 +1,93 @@
-﻿namespace RALPH_LOAD_MANAGEMENT
+﻿using System;
+using LoadManagementModels;
+using LoadManagementAppService;
+
+namespace LoadManagementConsoleUI
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            string network = "";
-            string number = "";
-            string loadtype = "";
-            string promo = "";
-            string amount = "";
+    
+            LoadAppService loadBL = new LoadAppService();
+            bool running = true;
 
-            string choice = "";
+            while (running)
+            {
+                Console.Clear();
+                Console.WriteLine("=== Load Management System ===");
+                Console.WriteLine("1. Buy Load (Regular only)");
+                Console.WriteLine("2. Exit");
+                Console.Write("Select an option: ");
+                string choice = Console.ReadLine();
 
-
-            Console.WriteLine("Load Management Menu");
-            Console.WriteLine("1. Buy Load");
-            Console.WriteLine("2. View Transaction");
-            Console.WriteLine("3. Update Number");
-            Console.WriteLine("4. Cancel Transaction");
-            Console.WriteLine("5. Exit");
-            choice = Console.ReadLine();
-            switch (choice) {
-                case "1":
-                    Console.Write("\nEnter Network (1-Globe, 2-Smart, 3-DITO): ");
-                    string netChoice = Console.ReadLine();
-
-                    if (netChoice == "1")
-                        network = "Globe";
-
-                    else if (netChoice == "2")
-                        network = "Smart";
-                    else if (netChoice == "3")
-                        network = "DITO";
-                    else { Console.WriteLine("Invalid Network");
-
-                    }
-                  
-
-
-                    Console.WriteLine("Enter Mobile Number");
-                    number = Console.ReadLine();
-                    Console.WriteLine("Select your Load Type (1. Regular 2.Promo)");
-                    string choiceload = Console.ReadLine();
-
-                    if (choiceload == "1")
-                    {
-                        loadtype = "Regular";
-                        promo = "N/A";
-
-
-                        Console.WriteLine("Enter Amopunt");
-                        amount = Console.ReadLine();
-
-                    }
-                    else if (choiceload == "2")
-                    {
-                        loadtype = "Promo";
-
-                        Console.WriteLine("Choose Promo:");
-                        Console.WriteLine("1. Go+109 with FREE 5G");
-                        Console.WriteLine("2. GoEXTRA109 with FREE 5G");
-                        Console.WriteLine("3. Unli 5G 50");
-                        Console.WriteLine("4. UnliGo99 Instagram");
-                        Console.WriteLine("5. Go5G 20");
-
-                        Console.WriteLine("Enter Promo Choice: ");
-                        string promoChoice = Console.ReadLine();
-                        switch (promoChoice)
-                        {
-                            case "1":
-                                promo = "Go+109 with FREE 5G";
-                                amount = "109";
-                                break;
-                            case "2":
-                                promo = "GoEXTRA109 with FREE 5G";
-                                amount = "109";
-                                break;
-                            case "3":
-                                promo = "Unli 5G 50";
-                                amount = "50";
-                                break;
-                            case "4":
-                                promo = "UnliGo99 Instagram";
-                                amount = "99";
-                                break;
-                            case "5":
-                                promo = "Go5G 20";
-                                amount = "20";
-                                break;
-                            default:
-                                promo = "Unknown";
-                                amount = "0";
-                                break;
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid Load Type: ");
-                    }
-                    Console.WriteLine("Load Purchased Successfully!");
-                    break;
-
-
-
-
-
+                switch (choice)
+                {
+                    case "1":
+                        BuyRegularLoad(loadBL);
+                        break;
+                    case "2":
+                        running = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Press any key to continue...");
+                        Console.ReadKey();
+                        break;
+                }
             }
+        }
+
+        static void BuyRegularLoad(LoadAppService loadBL)
+        {
+            Console.Clear();
+            Console.WriteLine("=== Buy Regular Load ===");
+
+            string phoneNumber;
+            do
+            {
+                Console.Write("Enter phone number: ");
+                phoneNumber = Console.ReadLine();
+
+                if (!loadBL.IsValidPhoneNumber(phoneNumber))
+                    Console.WriteLine("Invalid phone number. Must be 10-11 digits.");
+            } while (!loadBL.IsValidPhoneNumber(phoneNumber));
+
+       
+            Console.WriteLine("Select SIM card:");
+            Console.WriteLine("1. Globe");
+            Console.WriteLine("2. Smart");
+            Console.WriteLine("3. Dito");
+            Console.Write("Choice: ");
+            string networkChoice = Console.ReadLine();
+
+            string network = "";
+            switch (networkChoice)
+            {
+                case "1": network = "Globe"; break;
+                case "2": network = "Smart"; break;
+                case "3": network = "Dito"; break;
+                default: network = "Unknown"; break;
+            }
+
+          
+            Console.Write("Enter load amount: ");
+            string loadValue = Console.ReadLine();
+
+            var transaction = new Load
+            {
+                PhoneNumber = phoneNumber,
+                Network = network,
+                LoadType = "Regular",
+                LoadValue = loadValue
+            };
+
+     
+            var result = loadBL.BuyLoad(transaction);
+
+ 
+            Console.WriteLine($"\nThank you for purchasing {result.LoadValue} worth of load for {result.PhoneNumber} ({result.Network})!");
+            Console.WriteLine("Press any key to return to main menu...");
+            Console.ReadKey();
         }
     }
 }
