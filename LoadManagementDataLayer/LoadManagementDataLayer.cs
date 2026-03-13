@@ -15,11 +15,11 @@ namespace LoadManagementDataLayer
             {
                 //placeholder values lang
                 TransactionID = Guid.NewGuid().ToString(),
-                PhoneNumber = "09171234567",
+                PhoneNumber = "09174234567",
                 Network = "Globe",
                 LoadType = "Regular",
                 LoadValue = "50"
-            };
+            };  
 
             transactions.Add(sampleTransaction);
         }
