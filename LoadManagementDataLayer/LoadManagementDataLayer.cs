@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RALPH_LOAD_MANAGEMENT.LoadModelLayer; 
+using RALPH_LOAD_MANAGEMENT;
 
-namespace LoadManagementDataLayer
+namespace RALPH_LOAD_MANAGEMENT
 {
     public class LoadManagementDataLayer
     {
@@ -19,17 +19,18 @@ namespace LoadManagementDataLayer
                 Network = "Globe",
                 LoadType = "Regular",
                 LoadValue = "50"
-            };  
+            };
 
             transactions.Add(sampleTransaction);
         }
 
-       
+
         public void AddTransaction(LoadManagementModelLayer transaction)
         {
             transactions.Add(transaction);
         }
 
-        
-      
+
+
+    }
 }
