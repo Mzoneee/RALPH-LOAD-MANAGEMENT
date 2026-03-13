@@ -20,4 +20,9 @@
     <None Remove="LoadManagementModelLayer\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="LoadManagementBusinessLogic\LoadManagementBusinessLogic.csproj" />
+    <ProjectReference Include="LoadManagementModelLayer\LoadManagementModelLayer.csproj" />
+  </ItemGroup>
+
 </Project>
