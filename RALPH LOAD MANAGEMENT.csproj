@@ -8,4 +8,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="LoadManagementBusinessLogic\**" />
+    <Compile Remove="LoadManagementDataLayer\**" />
+    <Compile Remove="LoadManagementModelLayer\**" />
+    <EmbeddedResource Remove="LoadManagementBusinessLogic\**" />
+    <EmbeddedResource Remove="LoadManagementDataLayer\**" />
+    <EmbeddedResource Remove="LoadManagementModelLayer\**" />
+    <None Remove="LoadManagementBusinessLogic\**" />
+    <None Remove="LoadManagementDataLayer\**" />
+    <None Remove="LoadManagementModelLayer\**" />
+  </ItemGroup>
+
 </Project>
