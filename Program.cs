@@ -20,7 +20,8 @@ namespace LoadManagementConsoleUI
                 Console.WriteLine("1. Buy Load (Regular only)");
                 Console.WriteLine("2. View Loads");
                 Console.WriteLine("3. Update Transaction");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("4. Delete Transaction");
+                Console.WriteLine("5. Exit");
                 Console.Write("Select an option: ");
                 string choice = Console.ReadLine();
 
@@ -36,8 +37,13 @@ namespace LoadManagementConsoleUI
                         UpdateLoadRecord(loadBL);
                         break;
                     case "4":
+                        DeleteTransaction(loadBL);
+                        break;
+                    case "5":
                         running = false;
                         break;
+
+
                     default:
                         Console.WriteLine("Invalid choice. Press any key to continue...");
                         Console.ReadKey();
@@ -183,6 +189,30 @@ namespace LoadManagementConsoleUI
             Console.WriteLine("Press any key to return to menu...");
             Console.ReadKey();  
 
+        }
+
+
+        static void DeleteTransaction(LoadAppService loadBL)
+        {
+            Console.Clear();
+            Console.WriteLine("Enter the transaction ID to DELETE");
+            string id = Console.ReadLine();
+
+            bool DELETE = loadBL.RemoveTransaction(id);
+
+            if (DELETE)
+            {
+                Console.WriteLine("\n YOU HAVE SUCCESSFULLY DELETED THE TRANSACTION");
+
+            }
+            else
+            {
+                Console.WriteLine("\n Transaction ID Was not found, nothing was deleted");
+
+            }
+
+            Console.WriteLine("\nPress any key to return to the menu...");
+            Console.ReadKey();
         }
     }
 }

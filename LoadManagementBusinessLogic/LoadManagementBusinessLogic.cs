@@ -40,5 +40,11 @@ namespace LoadManagementAppService
                 }
             }
         }
+
+        public bool RemoveTransaction(string id)
+        {
+            return dataService.DeleteById(id);
+        }
+        
     }
 }
