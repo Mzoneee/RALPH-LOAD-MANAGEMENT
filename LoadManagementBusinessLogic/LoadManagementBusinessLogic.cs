@@ -20,5 +20,10 @@ namespace LoadManagementAppService
         {
             return phoneNumber.Length >= 10 && phoneNumber.Length <= 11 && long.TryParse(phoneNumber, out _);
         }
+
+        public List<Load> GetLoads()
+        {
+            return dataService.GetLoads();
+        }
     }
 }

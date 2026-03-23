@@ -17,7 +17,8 @@ namespace LoadManagementConsoleUI
                 Console.Clear();
                 Console.WriteLine("=== Load Management System ===");
                 Console.WriteLine("1. Buy Load (Regular only)");
-                Console.WriteLine("2. Exit");
+                Console.WriteLine("2. View Loads");
+                Console.WriteLine("3. Exit");
                 Console.Write("Select an option: ");
                 string choice = Console.ReadLine();
 
@@ -27,6 +28,9 @@ namespace LoadManagementConsoleUI
                         BuyRegularLoad(loadBL);
                         break;
                     case "2":
+                        ViewLoads(loadBL);
+                        break;
+                    case "3":
                         running = false;
                         break;
                     default:
@@ -87,6 +91,23 @@ namespace LoadManagementConsoleUI
  
             Console.WriteLine($"\nThank you for purchasing {result.LoadValue} worth of load for {result.PhoneNumber} ({result.Network})!");
             Console.WriteLine("Press any key to return to main menu...");
+            Console.ReadKey();
+        }
+
+        static void ViewLoads(LoadAppService loadBL)
+        {
+            Console.Clear();
+            Console.WriteLine("\nHere are the list of loads.. ");
+
+            var loads = loadBL.GetLoads();
+            int counter = 1;
+            foreach (var load in loads)
+            {
+                Console.WriteLine($"ID: {counter} Phone: {load.PhoneNumber}, Network: {load.Network}, Type: {load.LoadType}, Value: {load.LoadValue}");
+                counter++;
+            }
+
+            Console.WriteLine("\nPress any key to return to main menu...");
             Console.ReadKey();
         }
     }

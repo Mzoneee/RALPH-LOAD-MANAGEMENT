@@ -1,36 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using LoadManagementModels;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using LoadManagementModels;
 
-namespace LoadManagementDataService
-{
-    public class LoadDataService
+    namespace LoadManagementDataService
     {
-        public List<Load> transactions = new List<Load>();
-
-        public LoadDataService()
+        public class LoadDataService
         {
-            Load sampleTransaction = new Load
+        public List<Load> transactions;
+
+            public LoadDataService()
             {
-                //placeholder values lang
-                TransactionID = Guid.NewGuid().ToString(),
-                PhoneNumber = "09174234567",
-                Network = "Globe",
-                LoadType = "Regular",
-                LoadValue = "50"
-            };
+              transactions = new List<Load>();
+            }
 
-            transactions.Add(sampleTransaction);
+
+            public void AddTransaction(Load transaction)
+            {
+                transactions.Add(transaction);
+            }
+
+            public List<Load> GetLoads()
+            {
+                return transactions;
+            }
+
         }
-
-
-        public void AddTransaction(Load transaction)
-        {
-            transactions.Add(transaction);
-        }
-
-
-
     }
-}
