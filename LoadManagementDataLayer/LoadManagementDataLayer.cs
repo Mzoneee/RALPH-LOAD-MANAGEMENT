@@ -1,7 +1,8 @@
 ﻿    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using LoadManagementModels;
+using System.Runtime.ConstrainedExecution;
+using LoadManagementModels;
 
     namespace LoadManagementDataService
     {
@@ -15,7 +16,7 @@
             }
 
 
-            public void AddTransaction(Load transaction)
+        public void AddTransaction(Load transaction)
             {
                 transactions.Add(transaction);
             }
@@ -25,7 +26,11 @@
                 return transactions;
             }
 
-     
+        public Load GetById(string id)
+        {
+            return transactions.FirstOrDefault(x => x.TransactionID == id);
+
+        }
 
         }
     }

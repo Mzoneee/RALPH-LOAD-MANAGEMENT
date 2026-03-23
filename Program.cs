@@ -2,6 +2,7 @@
 using LoadManagementModels;
 using LoadManagementAppService;
 
+
 namespace LoadManagementConsoleUI
 {
     internal class Program
@@ -18,7 +19,8 @@ namespace LoadManagementConsoleUI
                 Console.WriteLine("=== Load Management System ===");
                 Console.WriteLine("1. Buy Load (Regular only)");
                 Console.WriteLine("2. View Loads");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Update Transaction");
+                Console.WriteLine("4. Exit");
                 Console.Write("Select an option: ");
                 string choice = Console.ReadLine();
 
@@ -31,6 +33,9 @@ namespace LoadManagementConsoleUI
                         ViewLoads(loadBL);
                         break;
                     case "3":
+                        UpdateLoadRecord(loadBL);
+                        break;
+                    case "4":
                         running = false;
                         break;
                     default:
@@ -38,7 +43,12 @@ namespace LoadManagementConsoleUI
                         Console.ReadKey();
                         break;
                 }
-            }
+
+
+
+
+
+                }
         }
 
         static void BuyRegularLoad(LoadAppService loadBL)
@@ -78,6 +88,7 @@ namespace LoadManagementConsoleUI
             string loadValue = Console.ReadLine();
 
             var transaction = new Load
+            
             {
                 PhoneNumber = phoneNumber,
                 Network = network,
@@ -100,15 +111,78 @@ namespace LoadManagementConsoleUI
             Console.WriteLine("\nHere are the list of loads.. ");
 
             var loads = loadBL.GetLoads();
-            int counter = 1;
-            foreach (var load in loads)
+           
+        if(loads.Count == 0)
             {
-                Console.WriteLine($"ID: {counter} Phone: {load.PhoneNumber}, Network: {load.Network}, Type: {load.LoadType}, Value: {load.LoadValue}");
-                counter++;
+                Console.WriteLine("No Transactions Found");
+
             }
+            else
+            {
+                foreach (var load in loads)
+                {
+                    Console.WriteLine($"ID: {load.TransactionID} Phone: {load.PhoneNumber}, Network: {load.Network}, Type: {load.LoadType}, Value: {load.LoadValue}");
+
+                }
+            }
+            
 
             Console.WriteLine("\nPress any key to return to main menu...");
             Console.ReadKey();
+        }
+
+
+        static void UpdateLoadRecord(LoadAppService loadBL)
+        {
+            Console.Clear();
+            Console.WriteLine("===UPDATE TRANSACTION===");
+            Console.WriteLine("Enter the transaction ID you want to UPDATE");
+            string findID = Console.ReadLine();
+
+            var loads = loadBL.GetLoads();
+            bool found = false;
+
+            for (int i = 0; i<loads.Count; i++)
+            {
+                if (loads[i].TransactionID == findID)
+                {
+                    found = true;
+
+                    Console.WriteLine("Enter new Phone Number: ");
+                    string newPhone = Console.ReadLine();
+
+                    Console.WriteLine("Select new SimCard (1.Globe, 2.Smart, 3.Dito) : ");
+                    string netChoice = Console.ReadLine();
+                    string newNetwork = netChoice == "1" ? "Globe" : netChoice == "2" ? "Smart" : "Dito";
+
+                    Console.WriteLine("Enter new Load Amount: ");
+                    string newAmount = Console.ReadLine();
+
+                    if (loadBL.IsValidPhoneNumber(newPhone))
+                    {
+                        loads[i].PhoneNumber = newPhone;
+                        loads[i].Network = newNetwork;
+                        loads[i].LoadValue = newAmount;
+                        Console.WriteLine("\nUpdate Successful! All fields updated.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nUpdate Failed: Invalid Phone Number format.");
+                    }
+                    break;
+
+                }
+            }
+
+            if (!found)
+            {
+                Console.WriteLine("\nTransaction ID not found.");
+
+            }
+
+            Console.WriteLine("Press any key to return to menu...");
+            Console.ReadKey();  
+
         }
     }
 }
