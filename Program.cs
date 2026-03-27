@@ -141,54 +141,37 @@ namespace LoadManagementConsoleUI
         static void UpdateLoadRecord(LoadAppService loadBL)
         {
             Console.Clear();
-            Console.WriteLine("===UPDATE TRANSACTION===");
-            Console.WriteLine("Enter the transaction ID you want to UPDATE");
+            Console.WriteLine("=== UPDATE TRANSACTION ===");
+
+            Console.Write("Enter Transaction ID: ");
             string findID = Console.ReadLine();
 
-            var loads = loadBL.GetLoads();
-            bool found = false;
+            Console.Write("Enter new Phone Number: ");
+            string newPhone = Console.ReadLine();
 
-            for (int i = 0; i<loads.Count; i++)
+            Console.WriteLine("Select new SimCard (1.Globe 2.Smart 3.Dito): ");
+            string netChoice = Console.ReadLine();
+
+            string newNetwork = netChoice == "1" ? "Globe" :
+                                netChoice == "2" ? "Smart" : "Dito";
+
+            Console.Write("Enter new Load Amount: ");
+            string newAmount = Console.ReadLine();
+
+            Load updatedLoad = new Load
             {
-                if (loads[i].TransactionID == findID)
-                {
-                    found = true;
+                TransactionID = findID,
+                PhoneNumber = newPhone,
+                Network = newNetwork,
+                LoadValue = newAmount,
+                LoadType = "Regular"
+            };
 
-                    Console.WriteLine("Enter new Phone Number: ");
-                    string newPhone = Console.ReadLine();
+            loadBL.UpdateTransaction(updatedLoad);
 
-                    Console.WriteLine("Select new SimCard (1.Globe, 2.Smart, 3.Dito) : ");
-                    string netChoice = Console.ReadLine();
-                    string newNetwork = netChoice == "1" ? "Globe" : netChoice == "2" ? "Smart" : "Dito";
-
-                    Console.WriteLine("Enter new Load Amount: ");
-                    string newAmount = Console.ReadLine();
-
-                    if (loadBL.IsValidPhoneNumber(newPhone))
-                    {
-                        loads[i].PhoneNumber = newPhone;
-                        loads[i].Network = newNetwork;
-                        loads[i].LoadValue = newAmount;
-                        Console.WriteLine("\nUpdate Successful! All fields updated.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nUpdate Failed: Invalid Phone Number format.");
-                    }
-                    break;
-
-                }
-            }
-
-            if (!found)
-            {
-                Console.WriteLine("\nTransaction ID not found.");
-
-            }
-
-            Console.WriteLine("Press any key to return to menu...");
-            Console.ReadKey();  
-
+            Console.WriteLine("\nUpdate Successful!");
+            Console.WriteLine("Press any key to return...");
+            Console.ReadKey();
         }
 
 
