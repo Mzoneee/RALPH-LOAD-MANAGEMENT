@@ -17,11 +17,12 @@ namespace LoadManagementConsoleUI
             {
                 Console.Clear();
                 Console.WriteLine("=== Load Management System ===");
-                Console.WriteLine("1. Buy Load (Regular only)");
-                Console.WriteLine("2. View Loads");
-                Console.WriteLine("3. Update Transaction");
-                Console.WriteLine("4. Delete Transaction");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("1. Buy Regular Load");
+                Console.WriteLine("2. Buy Promo Load");
+                Console.WriteLine("3. View Loads");
+                Console.WriteLine("4. Update Transaction");
+                Console.WriteLine("5. Delete Transaction");
+                Console.WriteLine("6. Exit");
                 Console.Write("Select an option: ");
                 string choice = Console.ReadLine();
 
@@ -31,15 +32,18 @@ namespace LoadManagementConsoleUI
                         BuyRegularLoad(loadBL);
                         break;
                     case "2":
-                        ViewLoads(loadBL);
+                        BuyPromoLoad(loadBL);
                         break;
                     case "3":
-                        UpdateLoadRecord(loadBL);
+                        ViewLoads(loadBL);
                         break;
                     case "4":
-                        DeleteTransaction(loadBL);
+                        UpdateLoadRecord(loadBL);
                         break;
                     case "5":
+                        DeleteTransaction(loadBL);
+                        break;
+                    case "6":
                         running = false;
                         break;
 
@@ -69,7 +73,9 @@ namespace LoadManagementConsoleUI
                 phoneNumber = Console.ReadLine();
 
                 if (!loadBL.IsValidPhoneNumber(phoneNumber))
+                {
                     Console.WriteLine("Invalid phone number. Must be 10-11 digits.");
+                }
             } while (!loadBL.IsValidPhoneNumber(phoneNumber));
 
        
@@ -105,11 +111,145 @@ namespace LoadManagementConsoleUI
      
             var result = loadBL.BuyLoad(transaction);
 
- 
-            Console.WriteLine($"\nThank you for purchasing {result.LoadValue} worth of load for {result.PhoneNumber} ({result.Network})!");
+           
+            Console.WriteLine($"\nRegular Load {result.LoadValue} successfully sent to {result.PhoneNumber} ({result.Network})!");
             Console.WriteLine("Press any key to return to main menu...");
             Console.ReadKey();
         }
+        static void BuyPromoLoad(LoadAppService loadBL)
+        {
+            Console.Clear();
+            Console.WriteLine("Buy the Promo Load");
+
+            string phoneNumber;
+
+            do
+            {
+                Console.WriteLine("Enter Phone Number");
+                phoneNumber = Console.ReadLine();
+
+                if (!loadBL.IsValidPhoneNumber(phoneNumber))
+                {
+                    Console.WriteLine("Invalid Phone Number");
+                }
+            } while (!loadBL.IsValidPhoneNumber(phoneNumber));
+
+                Console.WriteLine("Select Network");
+                Console.WriteLine("1. Smart");
+                Console.WriteLine("2. Globe");
+                Console.WriteLine("3. DITO");
+
+                Console.Write("Choice: ");
+
+                string networkChoice = Console.ReadLine();
+                string network = "";
+                string promo = "";
+
+                switch (networkChoice)
+                {
+                    case "1":
+                        network = "Smart";
+
+                        Console.WriteLine("\nSMART PROMOS");
+                        Console.WriteLine("1. Magic Data 99");
+                        Console.WriteLine("2. All Data 99");
+                        Console.WriteLine("3. Power All 99");
+
+                        string smartChoice = Console.ReadLine();
+
+                        if (smartChoice == "1")
+                            promo = "Magic Data 99";
+                        else if (smartChoice == "2")
+                            promo = "All Data 99";
+                        else if (smartChoice == "3")
+                            promo = "Power All 99";
+                        else
+                        {
+                            Console.WriteLine("Invalid promo choice.");
+                            Console.ReadKey();
+                            return;
+                        }
+
+                        break;
+
+                    case "2":
+                        network = "Globe";
+
+                        Console.WriteLine("\nGLOBE PROMOS");
+                        Console.WriteLine("1. Go+99");
+                        Console.WriteLine("2. Go+149");
+                        Console.WriteLine("3. GoSURF 299");
+
+                        string globeChoice = Console.ReadLine();
+
+                        if (globeChoice == "1")
+                            promo = "Go+99";
+                        else if (globeChoice == "2")
+                            promo = "Go+149";
+                        else if (globeChoice == "3")
+                            promo = "GoSURF 299";
+                        else
+                        {
+                            Console.WriteLine("Invalid promo choice.");
+                            Console.ReadKey();
+                            return;
+                        }
+
+                        break;
+
+                    case "3":
+                        network = "DITO";
+
+                        Console.WriteLine("\nDITO PROMOS");
+                        Console.WriteLine("1. DITO Level-Up 99");
+                        Console.WriteLine("2. DITO Level-Up 199");
+                        Console.WriteLine("3. DITO Level-Up 299");
+
+                        string ditoChoice = Console.ReadLine();
+
+                        if (ditoChoice == "1")
+                            promo = "DITO Level-Up 99";
+                        else if (ditoChoice == "2")
+                            promo = "DITO Level-Up 199";
+                        else if (ditoChoice == "3")
+                            promo = "DITO Level-Up 299";
+                        else
+                        {
+                            Console.WriteLine("Invalid promo choice.");
+                            Console.ReadKey();
+                            return;
+                        }
+
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid network.");
+                        Console.ReadKey();
+                        return;
+                }
+
+                var transaction = new Load
+                {
+                    PhoneNumber = phoneNumber,
+                    Network = network,
+                    LoadType = "Promo",
+                    LoadValue = promo
+                };
+
+                var result = loadBL.BuyLoad(transaction);
+
+                Console.WriteLine($"\nPromo {result.LoadValue} successfully sent to {result.PhoneNumber} ({result.Network})!");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+            
+
+
+
+            }
+        
+
+
+
 
         static void ViewLoads(LoadAppService loadBL)
         {
