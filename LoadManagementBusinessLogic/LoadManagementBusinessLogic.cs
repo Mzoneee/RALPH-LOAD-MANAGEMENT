@@ -12,6 +12,8 @@ namespace LoadManagementAppService
             public LoadAppService()
         {
             _dataService = new LoadDataLayerService(new LoadDatabase());
+            //_dataService = new LoadDataLayerService(new LoadJson());
+            //_dataService = new LoadDataLayerService(new LoadManagementInMemory());
         }
             public Load BuyLoad(Load newTransaction)
             {
