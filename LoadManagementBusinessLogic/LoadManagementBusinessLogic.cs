@@ -7,15 +7,13 @@ namespace LoadManagementAppService
     {
         public class LoadAppService
         {
-        private readonly LoadDataLayerService _dataService;
+       
 
-            public LoadAppService()
-        {
-            _dataService = new LoadDataLayerService(new LoadDatabase());
-            //_dataService = new LoadDataLayerService(new LoadJson());
-            //_dataService = new LoadDataLayerService(new LoadManagementInMemory());
-        }
-            public Load BuyLoad(Load newTransaction)
+        private readonly LoadDataLayerService _dataService = new LoadDataLayerService(new LoadDatabase());
+        //  private readonly LoadDataLayerService _dataService = new LoadDataLayerService(new LoadJson());
+        //  private readonly LoadDataLayerService _dataService = new LoadDataLayerService(new LoadManagementInMemory());
+
+        public Load BuyLoad(Load newTransaction)
             {
             newTransaction.TransactionID = Guid.NewGuid().ToString();
             _dataService.AddTransaction(newTransaction);
